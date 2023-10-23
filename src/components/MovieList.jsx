@@ -2,9 +2,10 @@ import PropTypes from "prop-types";
 import MovieItem from "./MovieItem";
 
 const MovieList = ({ data }) => {
+	console.log(data);
 	return (
 		<ul className="row list-unstyled">
-			{data.slice(0, 8).map((movie) => (
+			{data.map((movie) => (
 				<li key={movie.id} className="col-sm-3">
 					<MovieItem
 						image={movie.poster_path}

@@ -13,7 +13,7 @@ const SearchResults = () => {
 
 	const { data, loading, fetchData } = useFetchMovie(
 		"GET",
-		`search/movie?query=${query}&include_adult=false&language=en-US&page=1`
+		`search/movie?page=1&query=${query}`
 	);
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ const SearchResults = () => {
 				<div className="d-flex justify-content-between mb-4">
 					<h2>Search Result for &quot;{query}&quot;</h2>
 				</div>
-				{!loading && <MovieList data={data.results} />}
+				{!loading && <MovieList data={data} />}
 			</section>
 		</>
 	);

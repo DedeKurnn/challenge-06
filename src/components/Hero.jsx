@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import HeroMovieItem from "./HeroMovieItem";
+import HeroPlaceholder from "./HeroPlaceholder";
 
 const Hero = ({ data }) => {
 	return (
@@ -32,10 +33,16 @@ const Hero = ({ data }) => {
 					></button>
 				</div>
 				<div className="carousel-inner">
-					<HeroMovieItem id={data[0].id} active={true} />
-					{data.slice(1, 3).map((movie) => (
-						<HeroMovieItem key={movie.id} id={movie.id} />
-					))}
+					{data ? (
+						<>
+							<HeroMovieItem id={data[0].id} active={true} />
+							{data.slice(1, 3).map((movie) => (
+								<HeroMovieItem key={movie.id} id={movie.id} />
+							))}
+						</>
+					) : (
+						<HeroPlaceholder />
+					)}
 				</div>
 			</div>
 		</div>

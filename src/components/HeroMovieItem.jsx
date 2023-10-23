@@ -12,15 +12,11 @@ const HeroMovieItem = ({
 	genre = false,
 	carousel = true,
 }) => {
-	const { data: video } = useFetchMovie(
-		"GET",
-		`movie/${id.toString()}/videos`
-	);
 	const { data, loading } = useFetchMovie("GET", `movie/${id}`);
 	const genreList = data && data.genres.map((genre) => genre.name);
 
 	const watchTrailerHandler = () => {
-		const trailerMovie = video.results.find((movie) =>
+		const trailerMovie = data.results.find((movie) =>
 			movie.name.includes("Trailer")
 		);
 
@@ -33,7 +29,6 @@ const HeroMovieItem = ({
 			console.log("No matching trailer found");
 		}
 	};
-
 	return (
 		!loading && (
 			<div

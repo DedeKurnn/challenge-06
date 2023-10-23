@@ -39,7 +39,7 @@ const MovieItem = ({ image, title, rating, release, id }) => {
 MovieItem.propTypes = {
 	image: PropTypes.string,
 	title: PropTypes.string,
-	rating: PropTypes.string,
+	rating: PropTypes.number,
 	release: PropTypes.string,
 	id: PropTypes.number,
 };

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import HeroMovieItem from "../components/HeroMovieItem";
-import MovieDetails from "../components/MovieDetails";
+import { Footer } from "../components/Footer";
 
 const Details = () => {
 	const { id } = useParams();
@@ -17,7 +17,7 @@ const Details = () => {
 				rating={true}
 				carousel={false}
 			/>
-			<MovieDetails id={id} />
+			<Footer />
 		</>
 	);
 };

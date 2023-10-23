@@ -2,7 +2,8 @@ import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 
 export default function useFetchMovie(method, path) {
-	const baseUrl = "https://api.themoviedb.org/3/";
+	const token = localStorage.getItem("token");
+	const baseUrl = "https://shy-cloud-3319.fly.dev/api/v1/";
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -11,23 +12,21 @@ export default function useFetchMovie(method, path) {
 		try {
 			const response = await axios.request(baseUrl + path, {
 				method: method,
-				params: { language: "en-US", page: "1" },
 				headers: {
 					accept: "application/json",
-					Authorization: `Bearer ${
-						import.meta.env.VITE_TMDB_API_BEARER
-					}`,
+					Authorization: `Bearer ${token}`,
 				},
 			});
 
-			setData(response.data);
+			setData(response.data.data);
 			setLoading(false);
 			setError(null);
 		} catch (err) {
 			setError(`${error} Could not Fetch Data `);
+			console.log(err.response);
 			setLoading(false);
 		}
-	}, [setData, error, method, path]);
+	}, [setData, error, method, path, token]);
 
 	useEffect(() => {
 		if (loading) {
