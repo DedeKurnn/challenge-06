@@ -1,30 +1,20 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getMe, logout } from "../redux/actions/authActions";
 
 const Navigation = () => {
 	const [query, setQuery] = useState("");
 	const navigate = useNavigate();
 
-	const [user, setUser] = useState({});
-
-	const token = localStorage.getItem("token");
+	const dispatch = useDispatch();
+	const { user, isLoggedIn } = useSelector((state) => state.auth);
+	console.log(user);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-			await axios
-				.get("https://shy-cloud-3319.fly.dev/api/v1/auth/me")
-				.then((response) => {
-					console.log(response.data);
-					setUser(response.data.data);
-				})
-				.catch((error) => console.log(error.response));
-		};
-
-		fetchData();
-	}, [navigate, token]);
+		dispatch(getMe(null, null, null));
+	});
 
 	const searchMovieHandler = (e) => {
 		if (e.key == "Enter") {
@@ -33,8 +23,7 @@ const Navigation = () => {
 	};
 
 	const logoutHandler = () => {
-		localStorage.removeItem("token");
-		window.location.href = "/";
+		dispatch(logout(navigate));
 	};
 
 	return (
@@ -62,7 +51,7 @@ const Navigation = () => {
 				</div>
 
 				<ul className="navbar-nav me-auto mb-2 mb-lg-0 w-100 d-flex align-items-center justify-content-end gap-3">
-					{token ? (
+					{isLoggedIn && user ? (
 						<div className="d-flex align-items-center gap-2 justify-content-center">
 							<li className="nav-item w-auto">
 								<p className="fw-bold text-white mb-0">

@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import MovieItem from "./MovieItem";
 
 const MovieList = ({ data }) => {
-	console.log(data);
 	return (
 		<ul className="row list-unstyled">
 			{data.map((movie) => (

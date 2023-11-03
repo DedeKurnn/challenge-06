@@ -1,43 +1,27 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import GoogleLogin from "../components/GoogleLogin";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../redux/actions/authActions";
 
 const SignUp = () => {
 	const navigate = useNavigate();
 	const [username, setUsername] = useState();
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
-	const [validation, setValidation] = useState([]);
+
+	const dispatch = useDispatch();
+	const { error } = useSelector((state) => state.auth);
 
 	const handleRegister = async (e) => {
 		e.preventDefault();
 
-		const payload = {
-			name: username,
-			email: email,
-			password: password,
-		};
+		const payload = JSON.stringify({
+			email,
+			password,
+		});
 
-		const config = {
-			method: "post",
-			maxBodyLength: Infinity,
-			url: "https://shy-cloud-3319.fly.dev/api/v1/auth/register",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: payload,
-		};
-
-		try {
-			const response = await axios(config);
-			console.log(response.data);
-			localStorage.setItem("token", response.data.data.token);
-			navigate("/");
-		} catch (error) {
-			console.log(error.response);
-			setValidation(error.response.data);
-		}
+		dispatch(register(payload, navigate));
 	};
 
 	return (
@@ -48,9 +32,9 @@ const SignUp = () => {
 						<div className="card-body">
 							<h4 className="fw-bold">HALAMAN DAFTAR</h4>
 							<hr />
-							{validation.message && (
+							{error && error.message && (
 								<div className="alert alert-danger">
-									{validation.message}
+									{error.message}
 								</div>
 							)}
 							<form onSubmit={handleRegister}>
@@ -80,9 +64,9 @@ const SignUp = () => {
 										placeholder="Masukkan Alamat Email"
 									/>
 								</div>
-								{validation.email && (
+								{error && error.email && (
 									<div className="alert alert-danger">
-										{validation.email[0]}
+										{error.email[0]}
 									</div>
 								)}
 								<div className="mb-3">
@@ -99,9 +83,9 @@ const SignUp = () => {
 										placeholder="Masukkan Password"
 									/>
 								</div>
-								{validation.password && (
+								{error && error.password && (
 									<div className="alert alert-danger">
-										{validation.password[0]}
+										{error.password[0]}
 									</div>
 								)}
 								<div className="d-grid gap-2">

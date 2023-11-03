@@ -33,7 +33,7 @@ const Hero = ({ data }) => {
 					></button>
 				</div>
 				<div className="carousel-inner">
-					{data ? (
+					{data.length !== 0 ? (
 						<>
 							<HeroMovieItem id={data[0].id} active={true} />
 							{data.slice(1, 3).map((movie) => (

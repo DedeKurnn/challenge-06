@@ -1,24 +1,22 @@
 import MovieList from "../components/MovieList";
 import { useLocation } from "react-router-dom";
-import useFetchMovie from "../hook/useFetchMovie";
 import Navigation from "../components/Navigation";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getMovieSearchResult } from "../redux/actions/movieActions";
+import { useSelector } from "react-redux";
 
 const SearchResults = () => {
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const query = searchParams.get("q");
 
-	console.log(query);
-
-	const { data, loading, fetchData } = useFetchMovie(
-		"GET",
-		`search/movie?page=1&query=${query}`
-	);
+	const dispatch = useDispatch();
+	const { movieSearch } = useSelector((state) => state.movies);
 
 	useEffect(() => {
-		fetchData();
-	}, [query, fetchData]);
+		dispatch(getMovieSearchResult(query));
+	}, [query, dispatch]);
 
 	return (
 		<>
@@ -27,7 +25,7 @@ const SearchResults = () => {
 				<div className="d-flex justify-content-between mb-4">
 					<h2>Search Result for &quot;{query}&quot;</h2>
 				</div>
-				{!loading && <MovieList data={data} />}
+				{movieSearch && <MovieList data={movieSearch} />}
 			</section>
 		</>
 	);

@@ -5,6 +5,9 @@ import Details from "./pages/Details";
 import SearchResults from "./pages/SearchResults";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import { Toaster } from "react-hot-toast";
 
 const routes = createBrowserRouter([
 	{
@@ -31,11 +34,14 @@ const routes = createBrowserRouter([
 
 function App() {
 	return (
-		<GoogleOAuthProvider
-			clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID}
-		>
-			<RouterProvider router={routes} />
-		</GoogleOAuthProvider>
+		<Provider store={store}>
+			<GoogleOAuthProvider
+				clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID}
+			>
+				<RouterProvider router={routes} />
+				<Toaster />
+			</GoogleOAuthProvider>
+		</Provider>
 	);
 }
 
